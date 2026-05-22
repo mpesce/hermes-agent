@@ -5954,6 +5954,18 @@ class GatewayRunner:
                 logger.warning("WhatsApp: Node.js not installed or bridge not configured")
                 return None
             return WhatsAppAdapter(config)
+
+        elif platform == Platform.WHATSAPP_CLOUD:
+            from gateway.platforms.whatsapp_cloud import (
+                WhatsAppCloudAdapter,
+                check_whatsapp_cloud_requirements,
+            )
+            if not check_whatsapp_cloud_requirements():
+                logger.warning(
+                    "WhatsApp Cloud: aiohttp/httpx missing — reinstall hermes-agent"
+                )
+                return None
+            return WhatsAppCloudAdapter(config)
         
         elif platform == Platform.SLACK:
             from gateway.platforms.slack import SlackAdapter, check_slack_requirements
